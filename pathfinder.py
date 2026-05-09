@@ -63,7 +63,9 @@ def processNmapFile(inputNmapXmlFile, outputDotPngFile, skipDestHost, destIpToNe
                 hops = run.trace.hop
 
                 # check if last hop equals to target host (else skip due to incomplete traceroute)
-                if run.address["addr"] != hops[len(hops)-1]["ipaddr"]:
+                last_hop = hops[-1] if hops else None
+
+                if run.address and last_hop and run.address["addr"] != last_hop["ipaddr"]:
                     print("    Incomplete traceroute for host")
                     continue
 
